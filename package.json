@@ -1,0 +1,24 @@
+{
+  "name": "imagesearch",
+  "version": "1.0.0",
+  "description": "image search abstraction layer microservice",
+  "main": "index.js",
+  "scripts": {
+    "test": "tets"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joegrundman/ideal-lamp.git"
+  },
+  "keywords": [
+    "image",
+    "abstraction",
+    "microservice"
+  ],
+  "author": "joegrundman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joegrundman/ideal-lamp/issues"
+  },
+  "homepage": "https://github.com/Joegrundman/ideal-lamp#readme"
+}
