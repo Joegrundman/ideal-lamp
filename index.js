@@ -55,7 +55,7 @@ mongo.connect(connectionString, function(err, db) {
             }
             
             // get search params
-            var searchParams = req.url.split('/').pop().replace(/%20/,' ');
+            var searchParams = req.url.split('/').pop().replace(/%20/g,' ');
             
             if(searchParams == "favicon.ico") { return }
             
