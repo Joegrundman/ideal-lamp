@@ -38,7 +38,7 @@ mongo.connect(connectionString, function(err, db) {
                 if(err) throw err;
                 data = data.map(function(d){
                     d.when = new Date(d.when);
-                    return d;
+                    return {"term":d.term, "when": d.when};
                     }).reverse();
                     //console.log(data)
                 res.writeHead(200, {"Content-Type": "text/plain"})
