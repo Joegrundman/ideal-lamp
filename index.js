@@ -1,7 +1,7 @@
 var http = require('http');
 var mongo = require('mongodb').MongoClient;
 var Search = require('bing.search');
-var BING_KEY = process.env.BING_KEY || 'lbJOm1u6SfZnUQ/lECdcfDejeyqnfIY9Q1ZSAs8vPRk';
+var BING_KEY = process.env.BING_KEY;
 var connectionString = process.env.MONGO || 'mongodb://localhost:27017/imagesearch';
 var port = process.env.PORT || 3000;
 
@@ -38,10 +38,15 @@ mongo.connect(connectionString, function(err, db) {
             // handle search history
             db.collection('latest').find().toArray(function(err, data) {
                 if(err) throw err;
-                data = data.map(function(d){
+                data = data.sort(function(a,b){
+                    if (a.when > b.when){return -1}
+                    else {return 1}
+                })
+                .slice(0,10)
+                .map(function(d){
                     d.when = new Date(d.when);
                     return d;
-                    }).reverse();
+                    });
                     //console.log(data)
                 res.writeHead(200, {"Content-Type": "text/plain"})
                 res.end(JSON.stringify(data))
