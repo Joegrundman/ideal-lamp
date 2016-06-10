@@ -1,7 +1,7 @@
 var http = require('http');
 var mongo = require('mongodb').MongoClient;
 var Search = require('bing.search');
-var BING_KEY = process.env.BING_KEY;
+var BING_KEY = process.env.BING_KEY || 'lbJOm1u6SfZnUQ/lECdcfDejeyqnfIY9Q1ZSAs8vPRk';
 var connectionString = process.env.MONGO || 'mongodb://localhost:27017/imagesearch';
 var port = process.env.PORT || 3000;
 
@@ -27,9 +27,7 @@ var info = '<html>' +
 mongo.connect(connectionString, function(err, db) {
     if (err) throw err;
     console.log('mongodb connected on:', connectionString)
-    
-    
-    
+        
     http.createServer(function(req, res) {
         if (req.url === '/') {
             res.writeHead(200, {"Content-Type": "text/html"});
@@ -84,8 +82,9 @@ mongo.connect(connectionString, function(err, db) {
                         "term" : searchParams, 
                         "when": new Date().getTime() 
                     },function(err, data) {
+                        //console.log(data)
                         if(err) throw err;
-                        db.close();                 
+                                       
                 })               
             })
         }       
