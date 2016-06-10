@@ -36,15 +36,10 @@ mongo.connect(connectionString, function(err, db) {
             // handle search history
             db.collection('latest').find().toArray(function(err, data) {
                 if(err) throw err;
-                data = data.sort(function(a,b){
-                    if (a.when > b.when){return -1}
-                    else {return 1}
-                })
-                .slice(0,10)
-                .map(function(d){
+                data = data.map(function(d){
                     d.when = new Date(d.when);
                     return d;
-                    });
+                    }).reverse();
                     //console.log(data)
                 res.writeHead(200, {"Content-Type": "text/plain"})
                 res.end(JSON.stringify(data))
@@ -84,6 +79,25 @@ mongo.connect(connectionString, function(err, db) {
                     },function(err, data) {
                         //console.log(data)
                         if(err) throw err;
+                        db.collection('latest').find().toArray(function(err, data){
+                            if(err) throw err
+                            console.log(data)
+                            
+                            if (data.length > 10) {
+                                console.log('current datalength', data.length)
+                                var oldest = data.reduce(function(a, b) {
+                                    if (b.when < a.when) {return b}
+                                    else {return a}
+                                })
+                                console.log('oldest:', oldest)
+                                db.collection('latest').remove(oldest, function(err, data){
+                                    if (err) throw err
+
+                                })
+                            }
+                            
+                            
+                        })
                                        
                 })               
             })
