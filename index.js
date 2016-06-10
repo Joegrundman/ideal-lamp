@@ -55,7 +55,9 @@ mongo.connect(connectionString, function(err, db) {
             }
             
             // get search params
-            var searchParams = req.url.split('/').pop().replace('%20',' ');
+            var searchParams = req.url.split('/').pop().replace(/%20/,' ');
+            
+            if(searchParams == "favicon.ico") { return }
             
             var search = new Search(BING_KEY);
             
@@ -92,13 +94,9 @@ mongo.connect(connectionString, function(err, db) {
                                 console.log('oldest:', oldest)
                                 db.collection('latest').remove(oldest, function(err, data){
                                     if (err) throw err
-
                                 })
-                            }
-                            
-                            
-                        })
-                                       
+                            }                                                      
+                        })                                      
                 })               
             })
         }       
